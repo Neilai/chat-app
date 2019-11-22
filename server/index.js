@@ -1,0 +1,12 @@
+const Koa = require('koa')
+const app = new Koa()
+const { connect} = require('./db')
+const middlewares= require('./middlewares')
+const server = require('http').createServer(app.callback())
+const io = require('socket.io')(server)
+const {chat} = require("./service/chat")
+console.log(chat);
+Object.values(middlewares).map(f=>f(app))
+chat(io)
+connect()
+server.listen(4455)
