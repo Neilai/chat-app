@@ -1,4 +1,4 @@
-import { Schema ,model} from "mongoose";
+import { Schema, model } from "mongoose";
 const messageSchema = new Schema(
   {
     from: {
@@ -10,7 +10,11 @@ const messageSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true
-    }
+    },
+    read: {
+      type: Boolean
+    },
+    content: { type: String }
   },
   { timestamps: true }
 );

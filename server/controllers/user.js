@@ -21,7 +21,7 @@ export class userController {
     if (match) {
       let token = jwt.sign(
         {
-          id: user._id,
+          _id: user.id,
           name: user.username
         },
         "secret",
@@ -29,8 +29,7 @@ export class userController {
       );
       return (ctx.body = {
         success: true,
-        user,
-        token
+        token,
       });
     }
 

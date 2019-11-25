@@ -46,4 +46,5 @@ userSchema.methods = {
     });
   }
 };
+
 module.exports = model("User", userSchema);

@@ -16,8 +16,13 @@ let initAdmin = async () => {
       username: "Neil",
       password: "19971008"
     });
+    const admin = new User({
+      username: "admin",
+      password: "admin"
+    });
 
     await user.save();
+    await admin.save();
   }
 };
 
