@@ -1,4 +1,4 @@
-const { controller, get, put, post, del,auth } = require("../utils/decorator");
+const { controller, get, put, post,auth } = require("../utils/decorator");
 const User = require("../db/user");
 
 const jwt = require("jsonwebtoken");
@@ -8,7 +8,8 @@ export class userController {
   @post("login")
   async login(ctx, next) {
     const { username, password } = ctx.request.body;
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }).select("password");
+    console.log(user);
     const match = user && (await user.comparePassword(password, user.password));
 
     if (!match) {
@@ -39,9 +40,10 @@ export class userController {
     });
   }
 
-  @get("test")
+  @get("friends")
   @auth
-  async test(ctx,next){
-    ctx.body="fuck"
+  async getFriends(ctx,next){
+    const user=await User.findById(ctx.user._id).populate("friends")
+    ctx.body=user.friends;
   }
 }

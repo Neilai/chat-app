@@ -8,13 +8,18 @@ const messageSchema = new Schema(
     },
     to: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      refPath: 'type',
       required: true
     },
     read: {
       type: Boolean
     },
-    content: { type: String }
+    content: { type: String },
+    type: {
+      type: String,
+      required: true,
+      enum: ["Group", "User"]
+    }
   },
   { timestamps: true }
 );

@@ -11,6 +11,7 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true,
+    select:false
   },
   friends: {
     type: [{ type: Schema.Types.ObjectId, ref: "User" }],
