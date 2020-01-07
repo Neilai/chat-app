@@ -20,10 +20,10 @@ export class Route {
     glob.sync(resolve(this.apiPath, "./**/*.js")).forEach(require);
 
     for (let [conf, controllers] of routerMap) {
-      console.log(controllers);
       let prefixPath = conf.target[symbolPrefix];
       if (prefixPath) prefixPath = normalizePath(prefixPath);
       const routerPath = prefixPath + conf.path;
+      console.log(routerPath);
       this.router[conf.method](routerPath, ...controllers);
     }
 

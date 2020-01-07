@@ -15,10 +15,12 @@ const userSchema = new Schema({
   },
   friends: {
     type: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    select:false,
     default: []
   },
   group: {
     type: [{ type: Schema.Types.ObjectId, ref: "Group" }],
+    select:false,
     default: []
   }
 });

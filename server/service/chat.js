@@ -8,9 +8,13 @@ export const chat = async io => {
     var handshake = socket.request;
     let token = handshake._query.token;
     jwt.verify(token, "secret", function(err, decoded) {
-      if (err) next(new Error("authentication error"));
-      else {
+      if (err) {
+        console.log("auth error");
+        next(new Error("authentication error"));
+      } else {
+        console.log(decoded);
         socketMap.set(decoded._id, socket.id);
+        console.log("map值", socketMap);
         socket.user = decoded;
         socket.on("disconnect", () => {
           socketMap.delete(decoded.id);
@@ -33,7 +37,6 @@ export const chat = async io => {
     });
     socket.on("apply", async apply => {
       const match = await Apply.findOne(apply);
-      console.log(apply);
       if (!match) {
         if (socketMap.has(apply.to._id)) {
           io.sockets.connected[socketMap.get(apply.to._id)].emit(
@@ -44,12 +47,13 @@ export const chat = async io => {
         await new Apply(apply).save();
       }
     });
-    socket.on("newFriend", async ({ from, to, status }) => {
+    socket.on("deposeApply", async ({ from, to, status }) => {
       const apply = await Apply.findOne({
         from: from._id,
         to: to._id
       }).populate("from to");
       apply.status = status;
+      console.log("apply", apply);
       apply.save();
       if (status == "accept") {
         if (apply.to.friends.indexOf(apply.from._id) == -1) {
@@ -57,15 +61,15 @@ export const chat = async io => {
           apply.to.friends.push(from._id);
           await apply.from.save();
           await apply.to.save();
+          console.log("apply2", apply);
           let message = {
             from: apply.to,
             to: apply.from,
             content: "我通过了你的好友申请",
-            type: "User",
-            createdTime: new Date().getTime()
+            type: "User"
           };
-          if (socketMap.has(apply.from._id)) {
-            io.sockets.connected[socketMap.get(apply.from._id)].emit(
+          if (socketMap.has(String(apply.from._id))) {
+            io.sockets.connected[socketMap.get(String(apply.from._id))].emit(
               "message",
               message
             );
