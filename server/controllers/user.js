@@ -2,7 +2,7 @@ const { controller, get, put, post, auth } = require("../utils/decorator");
 const User = require("../db/user");
 const Message = require("../db/message");
 
-const path=require('path')
+const path = require("path");
 const jwt = require("jsonwebtoken");
 
 @controller("user")
@@ -14,10 +14,7 @@ export class userController {
     const match = user && (await user.comparePassword(password, user.password));
 
     if (!match) {
-      return (ctx.body = {
-        success: false,
-        err: "用户不存在"
-      });
+      ctx.throw(404, "用户不存在");
     }
 
     if (match) {
@@ -35,10 +32,7 @@ export class userController {
       });
     }
 
-    return (ctx.body = {
-      success: false,
-      err: "密码不正确"
-    });
+    ctx.throw(401, "用户名或密码不正确");
   }
 
   @get("friends")
@@ -88,7 +82,7 @@ export class userController {
       friend.lastTime = +messages[0].createdAt;
       ctx.body = friend;
     } else {
-      ctx.body = "错误";
+      ctx.throw(404, "用户不存在");
     }
   }
 
@@ -96,7 +90,6 @@ export class userController {
   async register(ctx, next) {
     const { username } = ctx.request.body;
     const repeatedUser = await User.findOne({ username });
-    console.log("repeated", repeatedUser);
     if (repeatedUser) {
       ctx.throw(409, "用户已经占用");
     }
