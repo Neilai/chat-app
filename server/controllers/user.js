@@ -2,6 +2,7 @@ const { controller, get, put, post, auth } = require("../utils/decorator");
 const User = require("../db/user");
 const Message = require("../db/message");
 
+const path=require('path')
 const jwt = require("jsonwebtoken");
 
 @controller("user")
@@ -63,7 +64,7 @@ export class userController {
         });
         e = e.toObject();
         e.messages = messages.reverse();
-        e.lastTime=+messages[0].createdAt
+        e.lastTime = +messages[0].createdAt;
         friends.push(e);
       })
     );
@@ -84,10 +85,30 @@ export class userController {
       });
       friend = friend.toObject();
       friend.messages = messages.reverse();
-      friend.lastTime=+messages[0].createdAt
+      friend.lastTime = +messages[0].createdAt;
       ctx.body = friend;
     } else {
       ctx.body = "错误";
     }
+  }
+
+  @post("")
+  async register(ctx, next) {
+    const { username } = ctx.request.body;
+    const repeatedUser = await User.findOne({ username });
+    console.log("repeated", repeatedUser);
+    if (repeatedUser) {
+      ctx.throw(409, "用户已经占用");
+    }
+    const user = await new User(ctx.request.body).save();
+    ctx.body = user;
+  }
+
+  @post("/upload")
+  @auth
+  async upload(ctx, next) {
+    const file = ctx.request.files.file;
+    const basename = path.basename(file.path);
+    ctx.body = { url: `${ctx.origin}/uploads/${basename}` };
   }
 }

@@ -11,18 +11,23 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true,
-    select:false
+    select: false
   },
   friends: {
     type: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    select:false,
+    select: false,
     default: []
   },
   group: {
     type: [{ type: Schema.Types.ObjectId, ref: "Group" }],
-    select:false,
+    select: false,
     default: []
-  }
+  },
+  avatar: {
+    type: String,
+    default: "http://localhost:4455/uploads/default.jpeg"
+  },
+  gender: { type: String, enum: ["male", "female"], default: "male" }
 });
 
 userSchema.pre("save", function(next) {
