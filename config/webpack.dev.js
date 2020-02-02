@@ -6,13 +6,12 @@ const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 module.exports = {
   entry: {
     app: [
-   
       "./client/index.jsx",
     ],
-    // vendor: ["react"]
   },
   output: {
     filename: "[name].[hash:8].js",
+    chunkFilename: '[name].bundle.js',
     path: resolve(__dirname, "../build")
   },
   module: {
@@ -21,7 +20,7 @@ module.exports = {
         enforce: "pre",
         test: /\.js$/,
         exclude: /node_modules/,
-        include: resolve(__dirname, "/src/js"),
+        include: resolve(__dirname, "/client/js"),
         loader: "eslint-loader"
       },
       {
@@ -118,12 +117,15 @@ module.exports = {
     hot: true
   },
   resolve: {
-    extensions: [".js", ".json", ".jsx"]
+    extensions: [".jsx",".js", ".json" ],
+    alias:{
+      '@':resolve(__dirname,"../client")
+    }
   },
   optimization: {
-    // runtimeChunk: true,
-    // splitChunks: {
-    //   chunks: "all"
-    // }
+    runtimeChunk: true,
+    splitChunks: {
+      chunks: "all",
+    }
   }
 };
