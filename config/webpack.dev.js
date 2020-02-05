@@ -55,7 +55,7 @@ module.exports = {
                     //支持import 懒加载
                     "@babel/plugin-syntax-dynamic-import",
                     //andt-mobile按需加载  true是less，如果不用less style的值可以写'css'
-                    ["import", { libraryName: "antd-mobile", style: true }],
+                    ["import", { libraryName: "antd-mobile", style: "css"}],
                     //识别class组件
                     ["@babel/plugin-proposal-class-properties", { loose: true }]
                   ],
@@ -65,20 +65,16 @@ module.exports = {
             ]
           },
           {
-            test: /\.(less|css)$/,
+            test: /\.css$/,
             use: [
               { loader: "style-loader" },
               {
                 loader: "css-loader",
-                options: {
-                  modules: false,
-                  localIdentName: "[local]--[hash:base64:5]"
-                }
+                // options: {
+                //   modules: false,
+                //   localIdentName: "[local]--[hash:base64:5]"
+                // }
               },
-              {
-                loader: "less-loader",
-                options: { javascriptEnabled: true }
-              }
             ]
           },
           {
