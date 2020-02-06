@@ -1,42 +1,42 @@
 import React, { useState } from "react";
 import { List, InputItem, NavBar, Icon, Grid } from "antd-mobile";
-import { Bottom } from "./style";
+import { Bottom, Header, Content } from "./style";
 import Chatuser from "../../components/chatuser";
-
+import Scroll from "../../components/scroll";
 function Chat(props) {
   const [text, setText] = useState("");
-  const [showEmoji, setEmoji] = useState(false);
-  const emoji = "😀 😃 😄 😁 😆 😅 😂 😊 😇 🙂 🙃 😉 😌 😍 😘 😗 😙 😚 😋 😜 😝 😛 🤑 🤗 🤓 😎 😏 😒 😞 😔 😟 😕 🙁 😣 😖 😫 😩 😤 😠 😡 😶 😐 😑 😯 😦 😧 😮 😲 😵 😳 😱 😨 😰 😢 😥 😭 😓 😪 😴 🙄 🤔 😬 🤐 😷 🤒 🤕 😈 👿 👹 👺 💩 👻 💀 ☠️ 👽 👾 🤖 🎃 😺 😸 😹 😻 😼 😽 🙀 😿 😾 👐 🙌 👏 🙏 👍 👎 👊 ✊ 🤘 👌 👈 👉 👆 👇 ✋  🖐 🖖 👋  💪 🖕 ✍️  💅 🖖 💄 💋 👄 👅 👂 👃 👁 👀 "
-    .split(" ")
-    .filter(v => v)
-    .map(v => ({ text: v }));
   return (
     <div>
-      <Chatuser direction={"right"} message={"123456"}></Chatuser>
-      <Chatuser direction={"right"} message={"123456"}></Chatuser>
-      <Chatuser direction={"right"} message={"123456"}></Chatuser>
-      <Chatuser direction={"right"} message={"123456"}></Chatuser>
-      <Chatuser direction={"right"} message={"123456"}></Chatuser>
-      <Chatuser direction={"right"} message={"123456"}></Chatuser>
-      <Chatuser direction={"right"} message={"123456"}></Chatuser>
-      <Chatuser direction={"right"} message={"123456"}></Chatuser>
-      <Chatuser direction={"right"} message={"123456"}></Chatuser>
-      <Chatuser direction={"left"} message={"123456"}></Chatuser>
-      <Chatuser direction={"left"} message={"123456"}></Chatuser>
-      <Chatuser direction={"left"} message={"123456"}></Chatuser>
-      <Chatuser direction={"left"} message={"123456"}></Chatuser>
+      <Header>
+        <NavBar
+          mode="light"
+          icon={<Icon type="left" />}
+          onLeftClick={() => console.log("onLeftClick")}
+        >
+          聊天人
+        </NavBar>
+      </Header>
+      <Content>
+        <Scroll>
+          <div>
+            <Chatuser direction={"right"} message={"123456"}></Chatuser>
+            <Chatuser direction={"right"} message={"123456"}></Chatuser>
+            <Chatuser direction={"right"} message={"123456"}></Chatuser>
+            <Chatuser direction={"right"} message={"123456"}></Chatuser>
+            <Chatuser direction={"right"} message={"123456"}></Chatuser>
+            <Chatuser direction={"right"} message={"123456"}></Chatuser>
+            <Chatuser direction={"right"} message={"123456"}></Chatuser>
+            <Chatuser direction={"right"} message={"123456"}></Chatuser>
+            <Chatuser direction={"right"} message={"123456"}></Chatuser>
+            <Chatuser direction={"left"} message={"123456"}></Chatuser>
+            <Chatuser direction={"left"} message={"123456"}></Chatuser>
+            <Chatuser direction={"left"} message={"123456"}></Chatuser>
+            <Chatuser direction={"left"} message={"123456"}></Chatuser>
+          </div>
+        </Scroll>
+      </Content>
+
       <Bottom>
-        {showEmoji ? (
-          <Grid
-            data={emoji}
-            columnNum={9}
-            carouselMaxRow={4}
-            isCarousel={true}
-            onClick={el => {
-              setText(text + el.text), setEmoji(false);
-            }}
-          />
-        ) : null}
         <InputItem
           placeholder="请输入"
           value={text}
@@ -45,14 +45,6 @@ function Chat(props) {
           }}
           extra={
             <div>
-              <span
-                style={{ marginRight: 15 }}
-                onClick={() => {
-                  setEmoji(!showEmoji);
-                }}
-              >
-                😃
-              </span>
               <span onClick={() => this.handleSubmit()}>发送</span>
             </div>
           }
