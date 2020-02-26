@@ -6,18 +6,21 @@ import Login from "../pages/login";
 import Messages from "../pages/messages";
 import Me from "../pages/me";
 import Chat from "../pages/chat";
+import Apply from "../pages/apply";
+import Search from "../pages/search";
 export default [
   { path: "/login", component: Login },
   { path: "/chat", component: Chat },
+  { path: "/apply", component: Apply },
   {
     path: "/",
     component: Home,
     routes: [
-        // {
-        //   path: "/",
-        //   exact: true,
-        //   render: () => <Redirect to={"/login"} />
-        // },
+      //   {
+      //     path: "/",
+      //     exact: true,
+      //     render: () => <Redirect to={"/login"} />
+      //   },
       {
         path: "/friends",
         requiresAuth: true,
@@ -32,6 +35,11 @@ export default [
         path: "/messages",
         requiresAuth: true,
         component: Messages
+      },
+      {
+        path: "/search",
+        requiresAuth: true,
+        component: Search
       }
     ]
   }
