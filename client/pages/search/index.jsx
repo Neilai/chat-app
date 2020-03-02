@@ -23,7 +23,7 @@ function Search(props) {
       <NavBar
         mode="light"
         icon={<Icon type="left" />}
-        onLeftClick={() => console.log("onLeftClick")}
+        onLeftClick={() => props.history.go(-1)}
       >
         新的朋友
       </NavBar>{" "}
@@ -53,7 +53,7 @@ function Search(props) {
                         status: "sending"
                       })
                     );
-                    setpeople("")
+                    setpeople("");
                   }}
                 >
                   发送好友请求

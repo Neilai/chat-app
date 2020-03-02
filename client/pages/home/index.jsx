@@ -18,6 +18,7 @@ function Home(props) {
   const { pathname } = props.location;
   const dispatch = useDispatch();
   const friends = useSelector(state => state.getIn(["chat", "friends"]).toJS());
+  const applies= useSelector(state => state.getIn(["chat", "apply"]).toJS());
   const unread = useSelector(state => state.getIn(["chat", "unread"]).toJS());
   useEffect(() => {
     if (!friends.length) {
@@ -82,7 +83,7 @@ function Home(props) {
             }
             title="朋友"
             key="friends"
-            badge={"1"}
+            badge={applies.length}
             selected={pathname === "/friends"}
             onPress={() => {
               props.history.push("/friends");

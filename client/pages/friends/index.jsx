@@ -7,6 +7,8 @@ const Brief = Item.Brief;
 
 function Friends(props) {
   const friends = useSelector(state => state.getIn(["chat", "friends"]).toJS());
+  const applies = useSelector(state => state.getIn(["chat", "apply"]).toJS());
+
   return (
     <div>
       <List
@@ -16,10 +18,11 @@ function Friends(props) {
           console.log("!");
         }}
       >
-        <Item extra={"extra content"}>添加好友</Item>
+        <Item extra={"extra content"} onClick={()=>{props.history.push("/search")}}>添加好友</Item>
         <Item
           extra={"extra content"}
-          extra={<Badge text={99} overflowCount={55} />}
+          onClick={()=>{props.history.push("/apply")}}
+          extra={<Badge text={applies.length} overflowCount={99} />}
         >
           申请消息
         </Item>
