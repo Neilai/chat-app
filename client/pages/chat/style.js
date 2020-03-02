@@ -15,6 +15,7 @@ export const Content = styled.div`
 `;
 
 export const Header = styled.div`
+  z-index:100;
   position:fixed;
   width:100%;
   top:0;

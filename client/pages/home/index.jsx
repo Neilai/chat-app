@@ -1,16 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import renderRoutes from "@/routes/renderRoutes";
 import { NavLink } from "react-router-dom"; //利用NavLink组件进行路由跳转
-import { useSelector } from "react-redux";
 import { TabBar } from "antd-mobile";
 import { Bottom, Content, Layout } from "./style";
 import Scroll from "../../components/scroll";
+import {
+  getAllMessages,
+  getApply,
+  listenMessages
+} from "@/store/chat.redux.js";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "@/store/user.redux.js";
 
 function Home(props) {
   const { route } = props;
-  const auth = useSelector(state => state.get("chat").toJS());
   const { pathname } = props.location;
-
+  const dispatch = useDispatch();
+  const friends = useSelector(state => state.getIn(["chat", "friends"]).toJS());
+  const unread= useSelector(state => state.getIn(["chat", "unread"]).toJS());
+  useEffect(() => {
+    if(!friends.length){
+      dispatch(getAllMessages());
+      dispatch(getApply());
+      dispatch(listenMessages());
+      dispatch(getUser());
+    }
+  }, []);
   return (
     <Layout>
       <Content>
@@ -26,17 +41,21 @@ function Home(props) {
             title="消息"
             key="messages"
             icon={
-              <svg class="icon" aria-hidden="true">
+              <svg className="icon" aria-hidden="true">
                 <use xlinkHref="#icon-messages"></use>
               </svg>
             }
             selectedIcon={
-              <svg class="icon" aria-hidden="true" style={{ fill: "#5ab6f0" }}>
+              <svg
+                className="icon"
+                aria-hidden="true"
+                style={{ fill: "#5ab6f0" }}
+              >
                 <use xlinkHref="#icon-messages"></use>
               </svg>
             }
             selected={pathname === "/messages"}
-            badge={1}
+            badge={unread.length&&unread.reduce((acc, val) => acc + val)}
             onPress={() => {
               props.history.push("/messages");
             }}
@@ -44,12 +63,16 @@ function Home(props) {
           ></TabBar.Item>
           <TabBar.Item
             icon={
-              <svg class="icon" aria-hidden="true">
+              <svg className="icon" aria-hidden="true">
                 <use xlinkHref="#icon-friends"></use>
               </svg>
             }
             selectedIcon={
-              <svg class="icon" aria-hidden="true" style={{ fill: "#5ab6f0" }}>
+              <svg
+                className="icon"
+                aria-hidden="true"
+                style={{ fill: "#5ab6f0" }}
+              >
                 <use xlinkHref="#icon-friends"></use>
               </svg>
             }
@@ -64,12 +87,16 @@ function Home(props) {
           ></TabBar.Item>
           <TabBar.Item
             icon={
-              <svg class="icon" aria-hidden="true">
+              <svg className="icon" aria-hidden="true">
                 <use xlinkHref="#icon-me"></use>
               </svg>
             }
             selectedIcon={
-              <svg class="icon" aria-hidden="true" style={{ fill: "#5ab6f0" }}>
+              <svg
+                className="icon"
+                aria-hidden="true"
+                style={{ fill: "#5ab6f0" }}
+              >
                 <use xlinkHref="#icon-me"></use>
               </svg>
             }

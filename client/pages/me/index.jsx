@@ -63,6 +63,7 @@ function me(props) {
           }
         >
           修改昵称
+          <Brief>sds</Brief>
         </Item>
         <Picker data={gender} cols={1} onChange={v => console.log(v)}>
           <List.Item arrow="horizontal">修改性别</List.Item>

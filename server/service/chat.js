@@ -27,11 +27,11 @@ export const chat = async io => {
   io.on("connection", async socket => {
     socket.on("message", async message => {
       console.log("msg", message);
-      if (socketMap.has(message.to._id)) {
-        io.sockets.connected[socketMap.get(message.to._id)].emit(
-          "message",
-          message
-        );
+      if (socketMap.has(message.to)) {
+        io.sockets.connected[socketMap.get(message.to)].emit("message", {
+          ...message,
+          read: false
+        });
       }
       await new Message({ ...message, read: false }).save();
     });

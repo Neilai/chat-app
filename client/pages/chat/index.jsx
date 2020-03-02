@@ -3,35 +3,62 @@ import { List, InputItem, NavBar, Icon, Grid } from "antd-mobile";
 import { Bottom, Header, Content } from "./style";
 import Chatuser from "../../components/chatuser";
 import Scroll from "../../components/scroll";
+import { useDispatch, useSelector } from "react-redux";
+import {} from "react";
+import { sendMessage, doRead } from "../../store/chat.redux";
 function Chat(props) {
   const [text, setText] = useState("");
+  const id = props.history.location.search.substr(1).split("=")[1];
+  const user = useSelector(state => state.get("user").toJS().user);
+  const friends = useSelector(state =>
+    state
+      .getIn(["chat", "friends"])
+      .toJS()
+      .filter(v => v._id == id)
+  );
+  const dispatch = useDispatch();
+  const submit = () => {
+    let msg = {
+      from: user._id,
+      to: id,
+      content: text,
+      createdAt: new Date(),
+      type: "User"
+    };
+    dispatch(sendMessage(msg));
+    setText("");
+  };
   return (
     <div>
       <Header>
         <NavBar
           mode="light"
           icon={<Icon type="left" />}
-          onLeftClick={() => console.log("onLeftClick")}
+          onLeftClick={() => {
+            props.history.go(-1), dispatch(doRead(id));
+          }}
         >
-          聊天人
+          {friends[0].username}
         </NavBar>
       </Header>
       <Content>
-        <Scroll>
+        <Scroll goBottom>
           <div>
-            <Chatuser direction={"right"} message={"123456"}></Chatuser>
-            <Chatuser direction={"right"} message={"123456"}></Chatuser>
-            <Chatuser direction={"right"} message={"123456"}></Chatuser>
-            <Chatuser direction={"right"} message={"123456"}></Chatuser>
-            <Chatuser direction={"right"} message={"123456"}></Chatuser>
-            <Chatuser direction={"right"} message={"123456"}></Chatuser>
-            <Chatuser direction={"right"} message={"123456"}></Chatuser>
-            <Chatuser direction={"right"} message={"123456"}></Chatuser>
-            <Chatuser direction={"right"} message={"123456"}></Chatuser>
-            <Chatuser direction={"left"} message={"123456"}></Chatuser>
-            <Chatuser direction={"left"} message={"123456"}></Chatuser>
-            <Chatuser direction={"left"} message={"123456"}></Chatuser>
-            <Chatuser direction={"left"} message={"123456"}></Chatuser>
+            {friends[0].messages.reverse().map(v => {
+              return v.to == id ? (
+                <Chatuser
+                  direction={"right"}
+                  message={v.content}
+                  key={v.createdAt}
+                ></Chatuser>
+              ) : (
+                <Chatuser
+                  direction={"left"}
+                  message={v.content}
+                  key={v.createdAt}
+                ></Chatuser>
+              );
+            })}
           </div>
         </Scroll>
       </Content>
@@ -45,7 +72,7 @@ function Chat(props) {
           }}
           extra={
             <div>
-              <span onClick={() => this.handleSubmit()}>发送</span>
+              <span onClick={() => submit()}>发送</span>
             </div>
           }
         ></InputItem>

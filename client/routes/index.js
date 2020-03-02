@@ -14,13 +14,15 @@ export default [
   { path: "/apply", component: Apply },
   {
     path: "/",
+    requiresAuth: true,
     component: Home,
     routes: [
-      //   {
-      //     path: "/",
-      //     exact: true,
-      //     render: () => <Redirect to={"/login"} />
-      //   },
+      {
+        path: "/",
+        exact: true,
+        requiresAuth: true,
+        component:Messages
+      },
       {
         path: "/friends",
         requiresAuth: true,

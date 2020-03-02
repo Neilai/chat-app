@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 const renderRoutes = (
   routes,
-  authed=true,
+  authed = !!window.localStorage.getItem("token"),
   authPath = "/login",
   extraProps = {},
   switchProps = {}
@@ -15,7 +15,7 @@ const renderRoutes = (
           path={route.path}
           exact={route.exact}
           strict={route.strict}
-          render={props => {
+          render={(props => {
             if (!route.requiresAuth || authed || route.path === authPath) {
               return (
                 <route.component {...props} {...extraProps} route={route} />
@@ -26,7 +26,7 @@ const renderRoutes = (
                 to={{ pathname: authPath, state: { from: props.location } }}
               />
             );
-          }}
+          })}
         />
       ))}
     </Switch>

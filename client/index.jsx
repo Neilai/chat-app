@@ -3,28 +3,30 @@ import ReactDOM from 'react-dom';
 import App from './App';
 
 ReactDOM.render(<App />, document.getElementById('root'))
-// import React from "react";
+
+
+
 // import io from "socket.io-client";
 // //admin
 // let x = io("ws://localhost:4455", {
 //   query:
-//     "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGRiZTg2OGRiNGVmMmU2ZDQ3ZGExYWMiLCJpYXQiOjE1NzgxMjAzMjEsImV4cCI6MTU4MDcxMjMyMX0.xaxvMxiemi14tJ7n2mBl8wZOjTe14EKjLFsYS7r3H-A"
+//     "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGRiZTg2OGRiNGVmMmU2ZDQ3ZGExYWMiLCJpYXQiOjE1ODMwNTk2NzQsImV4cCI6MTU4NTY1MTY3NH0.tF8ewc2oj3EM2TWoXmFxfgvMA4YLwpZJi3UWbpHoPjM"
 // });
 // //neil
 // let y = io("ws://localhost:4455", {
 //   query:
-//     "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGRiZTg2OGRiNGVmMmU2ZDQ3ZGExYWIiLCJpYXQiOjE1NzgxMjU4OTUsImV4cCI6MTU4MDcxNzg5NX0.NeSo2KuyZWXXWzl99IYJjOYHYjA0WOZK8Ruw2amDIVw"
+//     "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGRiZTg2OGRiNGVmMmU2ZDQ3ZGExYWIiLCJpYXQiOjE1ODMwNTk2MTUsImV4cCI6MTU4NTY1MTYxNX0.2gdHv0MzSt_nRDQeoIngEHxX-EkMlNmbZRGYRYJTLHA"
 // });
 // let y2x = {
-//   from: { _id: "5ddbe868db4ef2e6d47da1ab" },
-//   to: { _id: "5ddbe868db4ef2e6d47da1ac" },
-//   content: "y2x",
+//   from: "5ddbe868db4ef2e6d47da1ab",
+//   to: "5ddbe868db4ef2e6d47da1ac" ,
+//   content: "y2x!!!!",
 //   type: "User",
 // };
 // let x2y = {
-//   from: { _id: "5ddbe868db4ef2e6d47da1ac" },
-//   to: { _id: "5ddbe868db4ef2e6d47da1ab" },
-//   content: "x2y",
+//   from: "5ddbe868db4ef2e6d47da1ac" ,
+//   to: "5ddbe868db4ef2e6d47da1ab" ,
+//   content: "x2y!!!!!!",
 //   type: "User",
 // };
 // let Neil={

@@ -10,10 +10,10 @@ export class userController {
   @post("login")
   async login(ctx, next) {
     const { username, password } = ctx.request.body;
+    console.log("login!!!", username);
     const user = await User.findOne({ username }).select("password");
     const match = user && (await user.comparePassword(password, user.password));
-
-    if (!match) {
+    if (!user) {
       ctx.throw(404, "用户不存在");
     }
 
@@ -97,6 +97,12 @@ export class userController {
     ctx.body = user;
   }
 
+  @get("")
+  @auth
+  async getInfo(ctx,next){
+    const user = await User.findOne( {_id:ctx.user._id}); 
+    ctx.body=user
+  }
   @post("/upload")
   @auth
   async upload(ctx, next) {

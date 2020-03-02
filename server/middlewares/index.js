@@ -1,4 +1,3 @@
-const bodyParser = require("koa-bodyparser");
 const logger = require("koa-logger");
 const { Route } = require("../utils/decorator");
 const { resolve } = require("path");
@@ -6,18 +5,7 @@ const cors = require("koa-cors");
 const koaBody = require("koa-body");
 const path = require("path");
 const koaStatic = require("koa-static");
-
-export const addBodyParser = app => {
-  app.use(bodyParser());
-};
-
-export const addStatic = app => {
-  app.use(koaStatic(path.resolve(__dirname, "../public")));
-};
-
-export const addLogger = app => {
-  app.use(logger());
-};
+import bodyParser from 'koa-bodyparser'
 
 export const addCors = app => {
   app.use(
@@ -28,6 +16,15 @@ export const addCors = app => {
       headers: "Content-Type, Accept, Authorization"
     })
   );
+};
+
+export const addStatic = app => {
+  app.use(koaStatic(path.resolve(__dirname, "../public")));
+};
+
+export const addLogger = app => {
+  app.use(logger());
+
 };
 
 export const addBody = app => {
@@ -42,8 +39,8 @@ export const addBody = app => {
   );
 };
 
-
 export const router = app => {
+  console.log("router");
   const controllerPath = resolve(__dirname, "../controllers");
   const router = new Route(app, controllerPath);
   router.init();

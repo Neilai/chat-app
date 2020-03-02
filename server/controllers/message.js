@@ -10,7 +10,6 @@ export class messageController {
     let res = await Message.update(
       {
         $or: [
-          { from: ctx.user._id, to: ctx.params.id, read: false },
           { to: ctx.user._id, from: ctx.params.id, read: false }
         ]
       },
