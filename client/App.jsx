@@ -1,7 +1,8 @@
-import React from "react";
-import { Provider } from "react-redux";
+import React,{useEffect} from "react";
+import { Provider ,useDispatch} from "react-redux";
+import {setAuth} from './store/user.redux'
 import { GlobalStyle } from "./style";
-import renderRoutes from "./routes/renderRoutes";
+import RenderRoutes from "./routes/renderRoutes";
 import store from "./store/";
 import routes from "./routes/index.js";
 import { HashRouter } from "react-router-dom";
@@ -11,7 +12,7 @@ function App() {
     <Provider store={store}>
       <HashRouter>
         <GlobalStyle></GlobalStyle>
-        {renderRoutes(routes)}
+        <RenderRoutes  routes={routes} />
       </HashRouter>
     </Provider>
   );

@@ -1,7 +1,6 @@
 import { axiosInstance } from "./config";
 
 export const LoginRequest = ({ username, password }) => {
-  console.log(username, "name!!!");
   return axiosInstance.post("/user/login", {
     username,
     password
@@ -33,9 +32,27 @@ export const userRequest = () => {
 };
 
 export const readRequest = id => {
-  return axiosInstance.put(`/message/${id}`, {},{
-    headers: {
-      Authorization: `Bearer ${localStorage.token}`
+  return axiosInstance.put(
+    `/message/${id}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.token}`
+      }
     }
-  });
+  );
+};
+
+export const searchRequest = username => {
+  return axiosInstance.post(
+    "/user/search",
+    {
+      username
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.token}`
+      }
+    }
+  );
 };

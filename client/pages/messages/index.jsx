@@ -7,6 +7,8 @@ import {
 const Item = List.Item;
 const Brief = Item.Brief;
 function Messages(props) {
+  useEffect(()=>{
+  })
   const friends = useSelector(state => state.getIn(["chat", "friends"]).toJS());
   const unread = useSelector(state => state.getIn(["chat", "unread"]).toJS());
   const dispatch=useDispatch()

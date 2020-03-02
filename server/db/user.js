@@ -15,7 +15,7 @@ const userSchema = new Schema({
   },
   friends: {
     type: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    select: false,
+    select: true,
     default: []
   },
   group: {

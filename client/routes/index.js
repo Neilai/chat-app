@@ -10,37 +10,32 @@ import Apply from "../pages/apply";
 import Search from "../pages/search";
 export default [
   { path: "/login", component: Login },
-  { path: "/chat", component: Chat },
-  { path: "/apply", component: Apply },
+  { path: "/chat", requiresAuth: true, component: Chat },
+  { path: "/apply", requiresAuth: true, component: Apply },
   {
     path: "/",
-    requiresAuth: true,
     component: Home,
+    requiresAuth: true,
     routes: [
       {
         path: "/",
         exact: true,
-        requiresAuth: true,
-        component:Messages
+        component: Messages
       },
       {
         path: "/friends",
-        requiresAuth: true,
         component: Friends
       },
       {
         path: "/me",
-        requiresAuth: true,
         component: Me
       },
       {
         path: "/messages",
-        requiresAuth: true,
         component: Messages
       },
       {
         path: "/search",
-        requiresAuth: true,
         component: Search
       }
     ]

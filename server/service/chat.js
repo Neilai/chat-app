@@ -37,8 +37,14 @@ export const chat = async io => {
     });
     socket.on("apply", async apply => {
       const match = await Apply.findOne(apply);
+      console.log("apply");
       if (!match) {
+        console.log("before if");
         if (socketMap.has(apply.to._id)) {
+          console.log(
+            "apply id",
+            io.sockets.connected[socketMap.get(apply.to._id)]
+          );
           io.sockets.connected[socketMap.get(apply.to._id)].emit(
             "apply",
             apply
@@ -48,6 +54,7 @@ export const chat = async io => {
       }
     });
     socket.on("deposeApply", async ({ from, to, status }) => {
+      console.log("处理好友申请");
       const apply = await Apply.findOne({
         from: from._id,
         to: to._id

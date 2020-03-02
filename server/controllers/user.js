@@ -99,9 +99,9 @@ export class userController {
 
   @get("")
   @auth
-  async getInfo(ctx,next){
-    const user = await User.findOne( {_id:ctx.user._id}); 
-    ctx.body=user
+  async getInfo(ctx, next) {
+    const user = await User.findOne({ _id: ctx.user._id });
+    ctx.body = user;
   }
   @post("/upload")
   @auth
@@ -109,5 +109,13 @@ export class userController {
     const file = ctx.request.files.file;
     const basename = path.basename(file.path);
     ctx.body = { url: `${ctx.origin}/uploads/${basename}` };
+  }
+
+  @post("/search")
+  @auth
+  async search(ctx, next) {
+    const { username } = ctx.request.body;
+    console.log(username);
+    ctx.body = await User.findOne({  username });
   }
 }

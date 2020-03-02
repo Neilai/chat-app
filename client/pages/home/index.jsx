@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import renderRoutes from "@/routes/renderRoutes";
+import RenderRoutes from "@/routes/renderRoutes";
 import { NavLink } from "react-router-dom"; //利用NavLink组件进行路由跳转
 import { TabBar } from "antd-mobile";
 import { Bottom, Content, Layout } from "./style";
@@ -7,7 +7,8 @@ import Scroll from "../../components/scroll";
 import {
   getAllMessages,
   getApply,
-  listenMessages
+  listenMessages,
+  listenApply
 } from "@/store/chat.redux.js";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "@/store/user.redux.js";
@@ -17,19 +18,22 @@ function Home(props) {
   const { pathname } = props.location;
   const dispatch = useDispatch();
   const friends = useSelector(state => state.getIn(["chat", "friends"]).toJS());
-  const unread= useSelector(state => state.getIn(["chat", "unread"]).toJS());
+  const unread = useSelector(state => state.getIn(["chat", "unread"]).toJS());
   useEffect(() => {
-    if(!friends.length){
+    if (!friends.length) {
+      dispatch(listenApply())
+      dispatch(listenMessages());
       dispatch(getAllMessages());
       dispatch(getApply());
-      dispatch(listenMessages());
       dispatch(getUser());
     }
   }, []);
   return (
     <Layout>
       <Content>
-        <Scroll>{renderRoutes(route.routes)}</Scroll>
+        <Scroll>
+          <RenderRoutes routes={route.routes} />
+        </Scroll>
       </Content>
       <Bottom>
         <TabBar
@@ -55,7 +59,7 @@ function Home(props) {
               </svg>
             }
             selected={pathname === "/messages"}
-            badge={unread.length&&unread.reduce((acc, val) => acc + val)}
+            badge={unread.length && unread.reduce((acc, val) => acc + val)}
             onPress={() => {
               props.history.push("/messages");
             }}

@@ -4,22 +4,25 @@ import { createForm } from "rc-form";
 import { Container, Logo } from "./style";
 import LogoSrc from "./logo.png";
 import { LoginRequest } from "@/api/request.js";
-import {withRouter, Redirect} from "react-router"
+import { withRouter, Redirect } from "react-router";
+import {useDispatch} from "react-redux"
+import {setAuth} from "@/store/user.redux.js"
 
 function Login(props) {
   const [form, setForm] = useState({ username: "", password: "" });
+  const { history } = props;
   const submit = () => {
-    LoginRequest(form).then(res=>{
-      window.localStorage.setItem("token",res.token)
-      props.history.push("/messages")
-    }).catch(err=>console.log(err));
+    LoginRequest(form)
+      .then(res => {
+        window.localStorage.setItem("token", res.token);
+        window.location.reload()
+        // history.push("/messages");
+      })
+      .catch(err => console.log(err));
   };
-  useEffect(() => {
-  });
-  if(localStorage.token){
-   return  <Redirect
-    to={{ pathname: "/messages" }}
-  />
+  useEffect(() => {})
+  if (localStorage.token) {
+    return <Redirect to={{ pathname: "/messages" }} />;
   }
   return (
     <div>
@@ -50,4 +53,4 @@ function Login(props) {
   );
 }
 
-export default React.memo(withRouter( Login));
+export default React.memo(Login);

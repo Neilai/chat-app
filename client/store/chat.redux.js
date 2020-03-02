@@ -9,7 +9,7 @@ let socket = io("ws://localhost:4455", {
 const defaultState = fromJS({
   friends: [],
   apply: [],
-  unread: [],
+  unread: []
 });
 
 export function chat(state = defaultState, action) {
@@ -27,7 +27,6 @@ export function chat(state = defaultState, action) {
         "unread",
         state.get("friends").map(v => {
           return v.get("messages").filter(x => {
-            console.log(x,x.toJS());
             return x.get("from") == v.get("_id") && !x.get("read");
           }).size;
         })
@@ -39,22 +38,22 @@ export function chat(state = defaultState, action) {
         return v.get("_id") == action.to || v.get("_id") == action.from;
       });
       return state
-        .updateIn(["friends", index, "messages"], v => v.unshift(fromJS(action.value)))
+        .updateIn(["friends", index, "messages"], v =>
+          v.unshift(fromJS(action.value))
+        )
         .updateIn(["friends", index], v =>
           v.set("lastTime", +action.value.createdAt)
         );
-    case "SET_CURRENT":
-      return state.set("current", fromJS(action.value));
     case "SET_APPLY":
       return state.set("apply", fromJS(action.value));
+    case "CHANGE_APPLY":
+      return state.update("apply", v => v.unshift(fromJS(action.value)));
+    case "DELETE_APPLY":
+      return state.update("apply", v => v.delete(action.value));
     default:
       return state;
   }
 }
-const getSocket = v => ({
-  type: "SET_SOCKET",
-  value: v
-});
 const setFriends = v => ({
   type: "SET_FRIENDS",
   value: v
@@ -75,6 +74,11 @@ const setApply = v => ({
   value: v
 });
 
+const deleteApply = v => ({
+  type: "DELETE_APPLY",
+  value: v
+});
+
 const setUnread = v => ({
   type: "SET_UNREAD",
   value: v
@@ -82,10 +86,6 @@ const setUnread = v => ({
 
 const setRead = v => ({
   type: "SET_READ",
-  value: v
-});
-const setCurrent = v => ({
-  type: "SET_CURRENT",
   value: v
 });
 
@@ -129,6 +129,30 @@ export const doRead = id => {
     readRequest(id).then(() => {
       dispatch(setRead(id));
       dispatch(setUnread());
+    });
+  };
+};
+
+export const sendApply = apply => {
+  return dispatch => {
+    socket.emit("apply", apply);
+  };
+};
+
+export const deposeApply = (apply,index) => {
+  return dispatch => {
+    socket.emit("deposeApply", apply);
+    dispatch(deleteApply(index));
+    dispatch(getAllMessages())
+  };
+};
+
+export const listenApply = () => {
+  return dispatch => {
+    console.log("listen begin ");
+    socket.on("apply", apply => {
+      console.log("收到apply", apply);
+      dispatch(changeApply(apply));
     });
   };
 };
