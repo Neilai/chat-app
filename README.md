@@ -1,5 +1,12 @@
 # chat-app
 
+#### 本地使用
+
+```bash
+npm i	
+npm run dev
+```
+
 #### 后端接口
 
 | post |     路径      |         说明         |
@@ -10,6 +17,7 @@
 | get  |   /friends/   | 获取所有朋友聊天记录 |
 | get  | /friends/:id  | 获取指定朋友聊天记录 |
 | put  | /messages/:id |       标位已读       |
+| Put  |    /user/     |       更新信息       |
 
 #### socket接口
 
@@ -19,3 +27,8 @@
 |    Apply    | 发送申请/监听申请 |
 | deposeApply |     处理申请      |
 
+#### 界面展示
+
+- 登录与注册
+
+  
