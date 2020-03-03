@@ -87,7 +87,14 @@ function me(props) {
             修改性别 <Brief>{user.gender}</Brief>
           </List.Item>
         </Picker>
-        <Item>退出登录</Item>
+        <Item
+          onClick={() => {
+            window.localStorage.removeItem("token");
+            window.location.reload();
+          }}
+        >
+          退出登录
+        </Item>
       </List>
     </div>
   );

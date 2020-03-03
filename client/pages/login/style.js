@@ -9,6 +9,9 @@ export const Container = styled.div`
       text-align:right;
       margin:10px;
   }
+  .am-button{
+    margin-top:5px;
+  }
 
 `;
 

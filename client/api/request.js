@@ -64,3 +64,7 @@ export const updateRequest = v => {
     }
   });
 };
+
+export const registerRequest = v => {
+  return axiosInstance.post("/user", v);
+};

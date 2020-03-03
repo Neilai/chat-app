@@ -3,22 +3,28 @@ import { List, InputItem, WhiteSpace, Button, Toast } from "antd-mobile";
 import { createForm } from "rc-form";
 import { Container, Logo } from "./style";
 import LogoSrc from "./logo.png";
-import { LoginRequest } from "@/api/request.js";
+import { registerRequest } from "@/api/request.js";
 import { withRouter, Redirect } from "react-router";
 import { useDispatch } from "react-redux";
 import { setAuth } from "@/store/user.redux.js";
 
-function Login(props) {
-  const [form, setForm] = useState({ username: "", password: "" });
+function Register(props) {
+  const [form, setForm] = useState({
+    username: "",
+    password: "",
+    password2: ""
+  });
   const { history } = props;
   const submit = () => {
-    LoginRequest(form)
-      .then(res => {
-        window.localStorage.setItem("token", res.token);
-        window.location.reload();
-        // history.push("/messages");
-      })
-      .catch(err => Toast.info("用户名或密码不正确", 1));
+    if (form.password != form.password2) Toast.info("两次密码输入不一致", 1);
+    else
+      registerRequest({
+        username: form.username,
+        password: form.password
+      }).then(() => {
+        Toast.info("注册成功", 1);
+        props.history.push("/login");
+      });
   };
   useEffect(() => {});
   if (localStorage.token) {
@@ -44,19 +50,27 @@ function Login(props) {
         >
           密码
         </InputItem>
+        <InputItem
+          clear
+          placeholder="password"
+          onChange={v => setForm({ ...form, password2: v })}
+          type="password"
+        >
+          确认密码
+        </InputItem>
         <p
           onClick={() => {
-            props.history.push("/register");
+            props.history.push("/login");
           }}
         >
-          注册账号
+          去往登录
         </p>
         <Button type="primary" onClick={submit}>
-          登录
+          注册
         </Button>
       </Container>
     </div>
   );
 }
 
-export default React.memo(Login);
+export default React.memo(Register);
