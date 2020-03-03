@@ -107,7 +107,6 @@ function Home(props) {
             }
             title="我"
             key="me"
-            dot
             selected={pathname === "/me"}
             onPress={() => {
               props.history.push("/me");

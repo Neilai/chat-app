@@ -115,7 +115,14 @@ export class userController {
   @auth
   async search(ctx, next) {
     const { username } = ctx.request.body;
-    console.log(username);
-    ctx.body = await User.findOne({  username });
+    ctx.body = await User.findOne({ username });
+  }
+
+  @put("")
+  @auth
+  async changeInfo(ctx, next) {
+    console.log(ctx.request.body);
+    const user = await User.findByIdAndUpdate(ctx.user._id, ctx.request.body);
+    ctx.body = user;
   }
 }

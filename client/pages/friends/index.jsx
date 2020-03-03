@@ -18,10 +18,19 @@ function Friends(props) {
           console.log("!");
         }}
       >
-        <Item extra={"extra content"} onClick={()=>{props.history.push("/search")}}>添加好友</Item>
         <Item
-          extra={"extra content"}
-          onClick={()=>{props.history.push("/apply")}}
+          // extra={"extra content"}
+          onClick={() => {
+            props.history.push("/search");
+          }}
+        >
+          添加好友
+        </Item>
+        <Item
+          // extra={"extra content"}
+          onClick={() => {
+            props.history.push("/apply");
+          }}
           extra={<Badge text={applies.length} overflowCount={99} />}
         >
           申请消息
@@ -31,7 +40,15 @@ function Friends(props) {
       <List renderHeader={() => "朋友列表"} className="my-list">
         {friends.map(v => {
           return (
-            <Item thumb={v.avatar} multipleLine onClick={() => {}} key={v._id}>
+            <Item
+              thumb={v.avatar}
+              multipleLine
+              onClick={() => {}}
+              key={v._id}
+              onClick={() => {
+                props.history.push(`/chat?id=${v._id}`);
+              }}
+            >
               {v.username}
             </Item>
           );

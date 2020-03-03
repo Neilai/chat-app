@@ -1,33 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { Modal, List, Picker, Toast, ImagePicker } from "antd-mobile";
 import image from "../../assets/test.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import { updateRequest } from "@/api/request";
+import { getUser } from "@/store/user.redux.js";
+
 const Item = List.Item;
 const Brief = Item.Brief;
 const prompt = Modal.prompt;
 
 const gender = [
-  { label: "男", value: "0" },
-  { label: "女", value: "1" }
+  { label: "男", value: "male" },
+  { label: "女", value: "female" }
 ];
-// const avatar=[
-//   {
-//     url:image,
-//   }
-// ]
+
 function me(props) {
+  const user = useSelector(state => state.get("user").toJS().user);
+  console.log(user.avatar);
   const [avatar, setAvatar] = useState([
     {
-      url: image
+      url: user.avatar
     }
   ]);
+  const dispatch = useDispatch();
   return (
     <div>
       <List renderHeader={() => "个人信息"} className="my-list">
         <ImagePicker
           disableDelete
-          files={avatar}
+          files={[{ url: user.avatar }]}
           onChange={v => {
-            setAvatar([v[v.length - 1]]), console.log(v[-1]);
+            updateRequest({ avatar: v[v.length - 1].url }).then(res => {
+              dispatch(getUser());
+              Toast.info("修改成功", 1);
+            });
           }}
           onImageClick={(index, fs) => console.log(index, fs)}
           selectable={avatar.length < 2}
@@ -48,11 +54,13 @@ function me(props) {
                   text: "确认",
                   onPress: value =>
                     new Promise(resolve => {
-                      Toast.info("回传信息", 1);
-                      setTimeout(() => {
-                        resolve();
-                        console.log(`value:${value}`);
-                      }, 1000);
+                      updateRequest({ username: value })
+                        .then(res => {
+                          dispatch(getUser());
+                          Toast.info("修改成功", 1);
+                          resolve();
+                        })
+                        .catch(err => Toast.info("不能重名", 1));
                     })
                 }
               ],
@@ -63,10 +71,21 @@ function me(props) {
           }
         >
           修改昵称
-          <Brief>sds</Brief>
+          <Brief>{user.username}</Brief>
         </Item>
-        <Picker data={gender} cols={1} onChange={v => console.log(v)}>
-          <List.Item arrow="horizontal">修改性别</List.Item>
+        <Picker
+          data={gender}
+          cols={1}
+          onChange={v => {
+            updateRequest({ gender: v[0] }).then(res => {
+              dispatch(getUser());
+              Toast.info("修改成功", 1);
+            });
+          }}
+        >
+          <List.Item arrow="horizontal">
+            修改性别 <Brief>{user.gender}</Brief>
+          </List.Item>
         </Picker>
         <Item>退出登录</Item>
       </List>

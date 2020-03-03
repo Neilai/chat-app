@@ -9,7 +9,7 @@ import React, {
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import image from "../assets/test.jpg";
+// import image from "../assets/test.jpg";
 
 const Avatar = styled.div`
   img {
@@ -22,7 +22,7 @@ const Message = styled.div`
   margin-top: 10px;
   display: flex;
   &.right {
-    justify-content:flex-end;
+    justify-content: flex-end;
     .avatar {
       order: 1;
     }
@@ -30,12 +30,12 @@ const Message = styled.div`
       right: -16px;
       border-left-color: white;
     }
-    p{
-      float:right;
+    p {
+      float: right;
     }
   }
   &.left {
-    justify-content:flex-start;
+    justify-content: flex-start;
     .avatar {
       order: 0;
     }
@@ -68,7 +68,8 @@ const Content = styled.div`
 `;
 
 function Chatuser(props) {
-  const { direction, message } = props;
+  console.log("props",props);
+  const { direction, message, image } = props;
   return (
     <Message className={direction}>
       <Avatar className={"avatar"}>

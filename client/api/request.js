@@ -56,3 +56,11 @@ export const searchRequest = username => {
     }
   );
 };
+
+export const updateRequest = v => {
+  return axiosInstance.put("/user/", v, {
+    headers: {
+      Authorization: `Bearer ${localStorage.token}`
+    }
+  });
+};

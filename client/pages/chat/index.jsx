@@ -50,12 +50,14 @@ function Chat(props) {
                   direction={"right"}
                   message={v.content}
                   key={v.createdAt}
+                  image={user.avatar}
                 ></Chatuser>
               ) : (
                 <Chatuser
                   direction={"left"}
                   message={v.content}
                   key={v.createdAt}
+                  image={friends[0].avatar}
                 ></Chatuser>
               );
             })}
