@@ -31,4 +31,24 @@ npm run dev
 
 - 登录与注册
 
-  
+  ![](https://github.com/Neilai/chat-app/blob/master/screenshot/1.png)
+
+- 主界面
+
+  ![](https://github.com/Neilai/chat-app/blob/master/screenshot/2.png)
+
+- 添加好友
+
+  ![](https://github.com/Neilai/chat-app/blob/master/screenshot/3.png)
+
+- 个人信息修改
+
+  ![](https://github.com/Neilai/chat-app/blob/master/screenshot/4.png)
+
+- 好友同意
+
+  ![](https://github.com/Neilai/chat-app/blob/master/screenshot/6.png)
+
+- 实时聊天
+
+​      ![](https://github.com/Neilai/chat-app/blob/master/screenshot/5.png)
